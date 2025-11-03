@@ -1,124 +1,41 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: 'Poppins', sans-serif;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+body { background: linear-gradient(135deg,#e3f2fd,#ffffff); color:#333; display:flex; flex-direction:column; align-items:center; min-height:100vh; }
+header { background:linear-gradient(90deg,#007b83,#00cba9); color:#fff; width:100%; text-align:center; padding:15px 0; font-size:1.4rem; font-weight:600; box-shadow:0 4px 10px rgba(0,0,0,0.1); }
+.container { width:95%; max-width:720px; background:#fff; margin:24px; padding:20px; border-radius:12px; box-shadow:0 6px 15px rgba(0,0,0,0.08); }
+.balance { text-align:center; margin-bottom:12px; }
+.balance h3 { margin-top:8px; font-size:1.9rem; color:#007b83; }
+.income-expense { display:flex; justify-content:space-between; gap:10px; margin:12px 0; background:#f8f9fa; padding:12px; border-radius:10px; }
+.money.plus { color:#2ecc71; font-weight:600; }
+.money.minus { color:#e74c3c; font-weight:600; }
 
-body {
-  background: linear-gradient(135deg, #e3f2fd, #ffffff);
-  color: #333;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-}
+.form-section { margin-top:12px; }
+form { display:flex; gap:8px; flex-wrap:wrap; }
+form input { flex:1 1 48%; padding:10px; margin:6px 0; border:1px solid #ddd; border-radius:8px; font-size:1rem; }
+form button { padding:10px 16px; background:#007b83; color:#fff; border:none; border-radius:8px; cursor:pointer; font-weight:600; }
+form button:hover { background:#009e96; }
 
-header {
-  background: linear-gradient(90deg, #007b83, #00cba9);
-  color: #fff;
-  width: 100%;
-  text-align: center;
-  padding: 15px 0;
-  font-size: 1.6rem;
-  font-weight: 600;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-}
+.list { list-style:none; margin-top:12px; padding:0; max-height:280px; overflow:auto; }
+.list li { background:#f9f9fb; margin:8px 0; padding:10px; border-left:6px solid; border-radius:6px; display:flex; justify-content:space-between; align-items:flex-start; gap:10px; flex-wrap:wrap; }
+.list li.plus { border-color:#2ecc71; }
+.list li.minus { border-color:#e74c3c; }
 
-.container {
-  width: 420px;
-  background: #fff;
-  margin: 30px;
-  padding: 25px;
-  border-radius: 20px;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease;
-}
+.tx-left { display:flex; flex-direction:column; gap:6px; }
+.tx-right { display:flex; align-items:center; gap:8px; }
 
-.container:hover {
-  transform: translateY(-5px);
-}
+.tx-desc { font-weight:600; }
+.tx-amt { font-size:1rem; font-weight:700; }
+.tx-datetime { color:#666; font-size:12px; }
 
-.balance h2 {
-  font-size: 1.4rem;
-}
+.delete-btn { background:transparent; border:none; color:#333; cursor:pointer; font-size:16px; padding:6px; border-radius:6px; }
+.delete-btn:hover { background:#ffecec; }
 
-.balance h3 {
-  margin-top: 10px;
-  font-size: 2rem;
-  color: #007b83;
-}
+.chart-section { margin-top:18px; text-align:center; }
+.actions { display:flex; gap:10px; justify-content:center; margin-top:12px; }
+.actions button { padding:8px 12px; border-radius:8px; border:none; cursor:pointer; background:#007b83; color:#fff; }
+.actions button:hover { background:#009e96; }
 
-.income-expense {
-  display: flex;
-  justify-content: space-around;
-  margin: 20px 0;
-}
-
-.money.plus {
-  color: #2ecc71;
-}
-
-.money.minus {
-  color: #e74c3c;
-}
-
-.form-section input {
-  width: 100%;
-  padding: 10px;
-  margin: 8px 0;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-}
-
-button {
-  background-color: #007b83;
-  color: white;
-  border: none;
-  padding: 10px;
-  width: 100%;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-button:hover {
-  background-color: #009e96;
-}
-
-.list-section ul {
-  list-style: none;
-  padding: 0;
-}
-
-.list li {
-  display: flex;
-  justify-content: space-between;
-  background: #f9f9f9;
-  margin: 8px 0;
-  padding: 10px;
-  border-left: 5px solid;
-  border-radius: 5px;
-}
-
-.list li.plus {
-  border-color: #2ecc71;
-}
-
-.list li.minus {
-  border-color: #e74c3c;
-}
-
-footer {
-  background-color: #007b83;
-  color: white;
-  text-align: center;
-  padding: 10px;
-  width: 100%;
-  position: relative;
-  bottom: 0;
-}
-
-.chart-section {
-  margin-top: 25px;
+footer { width:100%; text-align:center; padding:12px 0; background:#007b83; color:#fff; margin-top:18px; border-top:3px solid #009fa8; }
+@media (max-width:520px){
+  form input { flex:1 1 100%; }
+  .container { padding:16px; }
 }
