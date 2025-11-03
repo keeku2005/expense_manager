@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Expense Manager</title>
   <link rel="stylesheet" href="style24.css" />
 </head>
@@ -30,7 +32,7 @@
       <h3>Add New Transaction</h3>
       <form id="transaction-form">
         <input type="text" id="text" placeholder="Enter description..." required />
-        <input type="number" id="amount" placeholder="Enter amount..." required />
+        <input type="number" id="amount" placeholder="Enter amount (use negative for expense)" required />
         <button type="submit">Add Transaction</button>
       </form>
     </section>
@@ -42,7 +44,12 @@
 
     <section class="chart-section">
       <h3>Spending Overview</h3>
-      <canvas id="expenseChart"></canvas>
+      <canvas id="expenseChart" width="300" height="300"></canvas>
+    </section>
+
+    <section class="actions">
+      <button id="exportBtn">Export CSV</button>
+      <button id="clearBtn">Clear All</button>
     </section>
   </main>
 
