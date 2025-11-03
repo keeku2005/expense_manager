@@ -1,86 +1,122 @@
-const balance = document.getElementById('balance');
-const income = document.getElementById('income');
-const expense = document.getElementById('expense');
-const list = document.getElementById('list');
-const form = document.getElementById('transaction-form');
-const text = document.getElementById('text');
-const amount = document.getElementById('amount');
+// Elements
+const balanceEl = document.getElementById('balance');
+const incomeEl  = document.getElementById('income');
+const expenseEl = document.getElementById('expense');
+const listEl    = document.getElementById('list');
+const form      = document.getElementById('transaction-form');
+const textInput = document.getElementById('text');
+const amountInput = document.getElementById('amount');
+const exportBtn = document.getElementById('exportBtn');
+const clearBtn  = document.getElementById('clearBtn');
 
-// Sample starting data
-let transactions = [
-  { id: 1, text: 'Salary', amount: 5000 },
-  { id: 2, text: 'Groceries', amount: -1200 },
-  { id: 3, text: 'Freelance', amount: 2000 },
-  { id: 4, text: 'Electricity Bill', amount: -800 }
-];
+let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+let chart = null;
 
-// Update balance and chart
+// Helpers
+function nowDateTime() {
+  const d = new Date();
+  // Format: dd/mm/yyyy, hh:mm AM/PM (browser locale aware)
+  const date = d.toLocaleDateString();
+  const time = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  return `${date}, ${time}`;
+}
+
+function save() {
+  localStorage.setItem('transactions', JSON.stringify(transactions));
+}
+
+function formatCurrency(num) {
+  return `₹${Number(num).toFixed(2)}`;
+}
+
+// DOM functions
+function addTransactionDOM(tx) {
+  const li = document.createElement('li');
+  li.classList.add(tx.amount < 0 ? 'minus' : 'plus');
+
+  const left = document.createElement('div');
+  left.className = 'tx-left';
+  const desc = document.createElement('div');
+  desc.className = 'tx-desc';
+  desc.textContent = tx.text;
+  const dt = document.createElement('small');
+  dt.className = 'tx-datetime';
+  dt.textContent = tx.datetime;
+  left.appendChild(desc);
+  left.appendChild(dt);
+
+  const right = document.createElement('div');
+  right.className = 'tx-right';
+  const amt = document.createElement('div');
+  amt.className = 'tx-amt';
+  amt.textContent = `${tx.amount < 0 ? '-' : '+'}${formatCurrency(Math.abs(tx.amount))}`;
+  const btn = document.createElement('button');
+  btn.className = 'delete-btn';
+  btn.textContent = '❌';
+  btn.onclick = () => removeTransaction(tx.id);
+
+  right.appendChild(amt);
+  right.appendChild(btn);
+
+  li.appendChild(left);
+  li.appendChild(right);
+  listEl.appendChild(li);
+}
+
 function updateValues() {
   const amounts = transactions.map(t => t.amount);
-  const total = amounts.reduce((a, b) => a + b, 0).toFixed(2);
-  const incomeTotal = amounts.filter(a => a > 0).reduce((a, b) => a + b, 0).toFixed(2);
-  const expenseTotal = (amounts.filter(a => a < 0).reduce((a, b) => a + b, 0) * -1).toFixed(2);
+  const total = amounts.reduce((a,b) => a + b, 0);
+  const incomeTotal = amounts.filter(a => a > 0).reduce((a,b) => a + b, 0);
+  const expenseTotal = Math.abs(amounts.filter(a => a < 0).reduce((a,b) => a + b, 0));
 
-  balance.innerText = `₹${total}`;
-  income.innerText = `+₹${incomeTotal}`;
-  expense.innerText = `-₹${expenseTotal}`;
+  balanceEl.textContent = formatCurrency(total);
+  incomeEl.textContent = `+${formatCurrency(incomeTotal)}`;
+  expenseEl.textContent = `-${formatCurrency(expenseTotal)}`;
 
-  updateChart();
+  updateChart(incomeTotal, expenseTotal);
 }
 
-function addTransactionDOM(transaction) {
-  const sign = transaction.amount < 0 ? '-' : '+';
-  const item = document.createElement('li');
-  item.classList.add(transaction.amount < 0 ? 'minus' : 'plus');
-  item.innerHTML = `
-    ${transaction.text} 
-    <span>${sign}₹${Math.abs(transaction.amount)}</span>
-    <button class="delete-btn" onclick="removeTransaction(${transaction.id})">x</button>
-  `;
-  list.appendChild(item);
-}
-
-function updateDOM() {
-  list.innerHTML = '';
+function initDOM() {
+  listEl.innerHTML = '';
   transactions.forEach(addTransactionDOM);
   updateValues();
 }
 
-form.addEventListener('submit', e => {
+function addTransaction(e){
   e.preventDefault();
-  if (text.value.trim() === '' || amount.value.trim() === '') return;
+  const text = textInput.value.trim();
+  const amount = Number(amountInput.value);
+  if (!text || !amount) return alert('Enter description and non-zero amount (use negative for expense).');
 
-  const transaction = {
-    id: Math.floor(Math.random() * 1000000),
-    text: text.value,
-    amount: +amount.value
+  const tx = {
+    id: Date.now(),
+    text,
+    amount,
+    datetime: nowDateTime()
   };
-  transactions.push(transaction);
-  updateDOM();
 
-  text.value = '';
-  amount.value = '';
-});
-
-function removeTransaction(id) {
-  transactions = transactions.filter(t => t.id !== id);
-  updateDOM();
+  transactions.unshift(tx); // newest first
+  save();
+  initDOM();
+  textInput.value = '';
+  amountInput.value = '';
 }
 
-// PIE CHART
-let expenseChart;
+// remove
+function removeTransaction(id){
+  transactions = transactions.filter(t => t.id !== id);
+  save();
+  initDOM();
+}
 
-function updateChart() {
+// chart
+function updateChart(incomeTotal = 0, expenseTotal = 0){
   const ctx = document.getElementById('expenseChart').getContext('2d');
-  const incomeTotal = transactions.filter(t => t.amount > 0).reduce((a, b) => a + b.amount, 0);
-  const expenseTotal = transactions.filter(t => t.amount < 0).reduce((a, b) => a + Math.abs(b.amount), 0);
-
-  if (expenseChart) expenseChart.destroy();
-
-  expenseChart = new Chart(ctx, {
+  if (chart) chart.destroy();
+  chart = new Chart(ctx, {
     type: 'pie',
     data: {
-      labels: ['Income', 'Expenses'],
+      labels: ['Income', 'Expense'],
       datasets: [{
         data: [incomeTotal, expenseTotal],
         backgroundColor: ['#2ecc71', '#e74c3c']
@@ -88,12 +124,41 @@ function updateChart() {
     },
     options: {
       responsive: true,
-      plugins: {
-        legend: { position: 'bottom' }
-      }
+      plugins: { legend: { position: 'bottom' } }
     }
   });
 }
 
-// Initialize
-updateDOM();
+// export CSV
+function exportCSV(){
+  if (!transactions.length) return alert('No transactions to export.');
+  let csv = 'Description,Amount,DateTime\n';
+  transactions.slice().reverse().forEach(t => {
+    // escape commas in text
+    const desc = `"${t.text.replace(/"/g,'""')}"`;
+    csv += `${desc},${t.amount},"${t.datetime}"\n`;
+  });
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'transactions.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// clear all
+function clearAll(){
+  if (!confirm('Clear all transactions? This cannot be undone.')) return;
+  transactions = [];
+  save();
+  initDOM();
+}
+
+// wiring
+form.addEventListener('submit', addTransaction);
+exportBtn.addEventListener('click', exportCSV);
+clearBtn.addEventListener('click', clearAll);
+
+// init on load
+initDOM();
