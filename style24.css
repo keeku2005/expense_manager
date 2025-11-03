@@ -1,0 +1,124 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #e3f2fd, #ffffff);
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+header {
+  background: linear-gradient(90deg, #007b83, #00cba9);
+  color: #fff;
+  width: 100%;
+  text-align: center;
+  padding: 15px 0;
+  font-size: 1.6rem;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.container {
+  width: 420px;
+  background: #fff;
+  margin: 30px;
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.container:hover {
+  transform: translateY(-5px);
+}
+
+.balance h2 {
+  font-size: 1.4rem;
+}
+
+.balance h3 {
+  margin-top: 10px;
+  font-size: 2rem;
+  color: #007b83;
+}
+
+.income-expense {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+}
+
+.money.plus {
+  color: #2ecc71;
+}
+
+.money.minus {
+  color: #e74c3c;
+}
+
+.form-section input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+button {
+  background-color: #007b83;
+  color: white;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: #009e96;
+}
+
+.list-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.list li {
+  display: flex;
+  justify-content: space-between;
+  background: #f9f9f9;
+  margin: 8px 0;
+  padding: 10px;
+  border-left: 5px solid;
+  border-radius: 5px;
+}
+
+.list li.plus {
+  border-color: #2ecc71;
+}
+
+.list li.minus {
+  border-color: #e74c3c;
+}
+
+footer {
+  background-color: #007b83;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  width: 100%;
+  position: relative;
+  bottom: 0;
+}
+
+.chart-section {
+  margin-top: 25px;
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Expense Manager</title>
+  <link rel="stylesheet" href="style24.css" />
+</head>
+<body>
+  <header>
+    <h1>💰 Expense Manager</h1>
+  </header>
+
+  <main class="container">
+    <section class="balance">
+      <h2>Your Balance</h2>
+      <h3 id="balance">₹0.00</h3>
+    </section>
+
+    <section class="income-expense">
+      <div>
+        <h3>Income</h3>
+        <p id="income" class="money plus">+₹0.00</p>
+      </div>
+      <div>
+        <h3>Expense</h3>
+        <p id="expense" class="money minus">-₹0.00</p>
+      </div>
+    </section>
+
+    <section class="form-section">
+      <h3>Add New Transaction</h3>
+      <form id="transaction-form">
+        <input type="text" id="text" placeholder="Enter description..." required />
+        <input type="number" id="amount" placeholder="Enter amount..." required />
+        <button type="submit">Add Transaction</button>
+      </form>
+    </section>
+
+    <section class="list-section">
+      <h3>Transaction History</h3>
+      <ul id="list" class="list"></ul>
+    </section>
+
+    <section class="chart-section">
+      <h3>Spending Overview</h3>
+      <canvas id="expenseChart"></canvas>
+    </section>
+  </main>
+
+  <footer>
+    <p>Created by Keerthana 🌸 | Expense Tracker</p>
+  </footer>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script24.js"></script>
+</body>
+</html>
