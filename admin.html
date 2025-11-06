@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin Dashboard - Expense Manager</title>
+  <link rel="stylesheet" href="style24.css" />
+</head>
+<body>
+  <header>
+    <h1>🧮 Admin Dashboard</h1>
+  </header>
+
+  <main class="container">
+    <section class="balance">
+      <h2>System Summary</h2>
+      <p><b>Total Users:</b> <span id="totalUsers">1</span></p>
+      <p><b>Total Income:</b> <span id="adminIncome">₹0.00</span></p>
+      <p><b>Total Expense:</b> <span id="adminExpense">₹0.00</span></p>
+      <p><b>Net Balance:</b> <span id="adminBalance">₹0.00</span></p>
+    </section>
+
+    <section class="chart-section">
+      <h3>Overall Spending Overview</h3>
+      <canvas id="adminChart" width="300" height="300"></canvas>
+    </section>
+
+    <section class="list-section">
+      <h3>All Transactions</h3>
+      <ul id="adminList" class="list"></ul>
+    </section>
+
+    <section class="actions">
+      <button id="adminExport">Export All (CSV)</button>
+      <button id="adminClear">Clear All Data</button>
+    </section>
+  </main>
+
+  <footer>
+    <p>Admin Panel | Created by Keerthana 🌸</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
